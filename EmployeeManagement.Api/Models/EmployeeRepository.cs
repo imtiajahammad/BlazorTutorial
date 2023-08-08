@@ -58,5 +58,9 @@ namespace EmployeeManagement.Api.Models
             }
             return null;
         }
+
+        public async Task<Employee> GetEmployeeByEmail(string email){
+            return await appDbContext.Employees.Where(e => e.Email == email).FirstOrDefaultAsync();
+        }
     }
 }

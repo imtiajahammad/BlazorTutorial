@@ -51,6 +51,16 @@ namespace EmployeeManagement.Api.Controllers
                 if(employee == null){
                     return BadRequest();
                 }
+
+                // Add custom model validation error
+                var emp = await _employeeRepository.GetEmployeeByEmail(employee.Email);Console.WriteLine("emp");
+
+                if(emp!=null){
+                    ModelState.AddModelError("email","Employee email already in use");
+                    return BadRequest(ModelState);
+                }
+
+
                 var createdEmployee = await _employeeRepository.AddEmployee(employee);
                 return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId}, createdEmployee);
             }
